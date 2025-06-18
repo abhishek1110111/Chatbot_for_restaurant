@@ -18,10 +18,11 @@ Manages user sessions and context to provide a seamless, multi-turn conversation
 Clean separation between frontend chatbot, NLP (Dialogflow), and backend (FastAPI) components.
 
 ## Tech Stack
-FastAPI (Python)
-Dialogflow (Google Cloud)
-Uvicorn
-MySQL 
+- FastAPI (Python)
+- Dialogflow (Google Cloud)
+- Uvicorn
+- MySQL
+- Regex 
 
 ## This project highlights my skills in:
 
