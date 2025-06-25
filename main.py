@@ -2,12 +2,13 @@ from fastapi import FastAPI
 from fastapi import Request
 from fastapi.responses import JSONResponse
 import generic_helper
-from helper.helper import track_order, add_order, complete_order
+from helper.helper import track_order, add_order, complete_order, remove_order
 
 
 app = FastAPI()
 @app.post("/")    
 async def handle_request(request: Request):
+    """Handle incoming requests from Dialogflow webhook."""
     # Retrieve the JSON data from the request
     webhook_response = await request.json()
     print(webhook_response)
@@ -30,15 +31,6 @@ async def handle_request(request: Request):
     elif intent == 'order.complete-context:ongoing-order':
         response =complete_order(session_id)   
         return JSONResponse(content={"fulfillmentText": response})  
-    # elif intent == 'order.remove-context:ongoing-order':
-    #     remove_order(parameters, session_id)
-   
-    
-   
-
-def remove_order(parameters: dict, session_id: str):
-    pass
-
-
-
-  
+    elif intent == 'order.remove-context:ongoing-order':
+        response = remove_order(parameters, session_id)
+        return JSONResponse(content={"fulfillmentText": response})

@@ -1,10 +1,8 @@
 # db/db_helper.py
 import mysql.connector
 
-
-
-
 def create_connection():
+    
     """Create a database connection to the MySQL database."""
     print('create_connection function called')
     try:
@@ -12,16 +10,16 @@ def create_connection():
             host='localhost',
             user='root',
             password='',   
-            database='indian_eatery'
+            database='indian_eatery',
+            connection_timeout=5 # set a 5 sec timeout for the connection
         )
-        print('connection created')
-        print(connection)
         if connection.is_connected():
             print("Connection to the database established successfully.")
             return connection   
     except mysql.connector.Error as err:
         print(f"Error: {err}")
         return 'something went wrong while connecting to the chatbot'
+
     
 def close_connection(connection):
     """Close the database connection."""
@@ -56,11 +54,8 @@ def get_order_status_by_id(order_id: int):
         
 def save_order(ongoing_order: dict):
     """add a complete order in database."""
-    print('okkkkkkkkkkkkkkkk')
-    print(ongoing_order)
+     
     connection = create_connection()
-    print(connection)
-    
     if not connection:
         print("Failed to connect to the database. function :save_order")
         return f'something went wrong while connecting to the chatbot'
@@ -69,16 +64,88 @@ def save_order(ongoing_order: dict):
     print('cursor test')
     print(cursor)
     try:
-        
-        # query = "INSERT INTO customers (name, address) VALUES (%s, %s)"
-        # cursor.execute(query, (order_id,))
-        # order = cursor.fetchone()
-        # print(order)
-        
-        return f'complete order has been saved successfully'
+        get_food_item_id = get_item_id_by_name(ongoing_order, cursor)
+        order_id = generate_order_id(cursor)
+        print(get_food_item_id)
+        count = 0
+        for item in get_food_item_id:
+            item_id = item['item_id']
+            print(item['name'])
+            print(ongoing_order[item['name']])
+            print(int(ongoing_order[item['name']]))
+            quantity = int(ongoing_order[item['name']])
+            total_price = item['price'] * quantity
+            print(total_price)
+            #Insert each item into the orders table
+            query = "INSERT INTO orders (order_id, item_id, quantity, total_price) VALUES (%s, %s, %s, %s)"
+            result = cursor.execute(query, (order_id, item_id, quantity, total_price))
+            rs = connection.commit()
+            count += cursor.rowcount
+            
+        if count == len(get_food_item_id):
+            print(f'{count} items have been added to the order')
+            tracking_status = add_tracking_status(order_id, cursor, connection)
+            if tracking_status:
+                print(f'Tracking status for order {order_id} added successfully. function: save_order')
+                total_order_price = get_total_price_by_order_id(order_id, cursor)
+                return f'Thank you for choosing, Your order has been placed successfully with order ID: {order_id}.\
+                    The total price is £ {total_order_price}. To know the order status, write "track order"'
+            else:
+                print(f'Failed to add tracking status for order {order_id}. function: save_order')
+        else:
+            print(f'Only {count} items have been added to the order, function: save_order')
     except mysql.connector.Error as err:
         print(str(err))
-        return f'something went wrong while connecting to the chatbot'
+        return f'something went wrong while connecting to the chatbot, function: save_order'
     finally:
         cursor.close()
         close_connection(connection)
+        
+def get_item_id_by_name(ongoing_order: dict, cursor):
+    """Get food item ID by its name."""
+    try:
+        keys = list(ongoing_order.keys())
+        placeholders = ','.join(['%s'] * len(keys))
+        query = f"SELECT * FROM food_items WHERE name in ({placeholders})"
+        cursor.execute(query, keys)
+        items = cursor.fetchall()
+        return items
+    except mysql.connector.Error as err:
+        print(f"Error: {err} , function: get_item_id_by_name")
+        return f'something went wrong while connecting to the chatbot, function: get_item_id_by_name' 
+
+def generate_order_id(cursor):
+    query = "SELECT MAX(order_id) AS max_order_id FROM orders"
+    cursor.execute(query)
+    result = cursor.fetchone()
+    if result['max_order_id'] is not None:
+        return result['max_order_id'] + 1
+    else:
+        return 1  # Start with order ID 1 if no orders exist
+
+def add_tracking_status(order_id, cursor, connection):
+    """Add tracking status for the order."""
+    try:
+        query = "INSERT INTO order_tracking (order_id, status) VALUES (%s, %s)"
+        cursor.execute(query, (order_id, 'Order Placed'))
+        connection.commit()
+        print(f"Tracking status for order {order_id} added successfully. function: add_tracking_status")
+        return True
+    except mysql.connector.Error as err:
+        print(f"Error: {err} , function: add_tracking_status, function: add_tracking_status")
+        return False
+
+def get_total_price_by_order_id(order_id, cursor):
+    """Get total price of an order by its ID."""
+    try:
+        query = "SELECT get_total_order_price(%s)"
+        cursor.execute(query, (order_id,))
+        total_price_dict = cursor.fetchone()
+        if total_price_dict:
+            values  = total_price_dict.values()
+            value = list(values)[0]
+            price = float(value)
+            return price  
+    except mysql.connector.Error as err:
+        print(f"Error: {err} , function: get_total_price_by_order_id")
+        return f'something went wrong while connecting to the chatbot, function: get_total_price_by_order_id'

@@ -5,6 +5,7 @@ import generic_helper
 in_progress_orders = {}
 
 def track_order(parameters: dict,):
+    """Track an order by its ID."""
     order_id = int(parameters['order_id'])
     status = db_helper.get_order_status_by_id(order_id)
     print(status)
@@ -20,6 +21,7 @@ def track_order(parameters: dict,):
     return message
 
 def add_order(parameters: dict, session_id: str):
+    """Add items to the ongoing order."""
     food_items = parameters["food-item"]
     quantity = parameters["quantity"]
     if len(food_items) == len(quantity):
@@ -35,17 +37,33 @@ def add_order(parameters: dict, session_id: str):
         
         return f' {extract_message} has been added to your order. you want to add more items? or finish your order?'
     else:
-        return f"Sorry! Can you please Specify item and quantities clearly. like one piza, 2 lassi, two chole bhature, etc"
+        return f"Sorry! Can you please Specify item and quantities clearly. like one pizza, 2 lassi, two chole bhature, etc"
 
 def complete_order(session_id: str):
+    """Complete the order and save it to the database."""
     ongoing_order = in_progress_orders.get(session_id)
-    print('************')
-    print(in_progress_orders)
-    print('&&&&&&&')
-    print(session_id)
-    print('#############')
-    print(ongoing_order)
-    print('*************')
     response =db_helper.save_order(ongoing_order)
+    in_progress_orders.pop(session_id)
     return response
-            
+
+def remove_order(parameters: dict, session_id: str):
+        """Remove items from the ongoing order."""
+        food_items = parameters["food-item"]
+        print(food_items)
+        print(parameters)
+        if session_id in in_progress_orders:
+            ongoing_order_dict = in_progress_orders[session_id]
+            print(ongoing_order_dict)
+            print(type(ongoing_order_dict))
+            for item in food_items:
+                if item in ongoing_order_dict:
+                    del ongoing_order_dict[item]
+            in_progress_orders[session_id] = ongoing_order_dict
+            if len(in_progress_orders[session_id]) == 0:
+                return "Your order cart is now empty. please add items to your order."
+            else:
+                extract_message = generic_helper.get_str_from_food_dict(in_progress_orders[session_id])
+                result = ', '.join(food_items)
+                return f' {result} has been removed from your order and {extract_message} is left in you cart. you want to add more items? or finish your order?'
+        else:
+            return "No ongoing order found to remove items from."            
