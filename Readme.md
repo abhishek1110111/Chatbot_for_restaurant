@@ -38,14 +38,14 @@ Clean separation between frontend chatbot, NLP (Dialogflow), and backend (FastAP
 - **Software engineering best practices (version control, branching, modular code)**
 
 
-## Directory structure
+Directory structure
 ===================
-Frontend: Contains frontend website code and images where integrated chatbot
-db\indian_eatery.sql: contains the dump of the database. you need to import this into your MySQL db by using MySQL workbench tool
-db\db_helper.py : Contains python code to handle database function
-dialogflow_assets: this has training phrases etc. for our intents
-main.py : It main app file for fast API where dialogflow webhook api call handles
-requirement.txt: contain package requirement to run this project
+- Frontend: Contains frontend website code and images where integrated chatbot
+- db\indian_eatery.sql: contains the dump of the database. you need to import this into your MySQL db by using MySQL workbench tool
+- db\db_helper.py : Contains python code to handle database function
+- dialogflow_training_assest: this has training phrases etc. for our intents
+- main.py : It main app file for fast API where dialogflow webhook api call handles
+- requirement.txt: contain package requirement to run this project
 
 Install these modules
 ======================
