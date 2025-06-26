@@ -19,7 +19,6 @@ async def handle_request(request: Request):
     parameters = webhook_response['queryResult']['parameters']
     output_contexts = webhook_response['queryResult']['outputContexts']
     session_id = generic_helper.fetch_session_id(output_contexts[0]["name"])
-    print('hello')
     
     if intent == 'track.order-context:ongoing-tracking':
         response = track_order(parameters)

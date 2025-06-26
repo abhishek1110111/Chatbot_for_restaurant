@@ -51,12 +51,9 @@ def complete_order(session_id: str):
 def remove_order(parameters: dict, session_id: str):
         """Remove items from the ongoing order."""
         food_items = parameters["food-item"]
-        print(food_items)
-        print(parameters)
+       
         if session_id in in_progress_orders:
             ongoing_order_dict = in_progress_orders[session_id]
-            print(ongoing_order_dict)
-            print(type(ongoing_order_dict))
             for item in food_items:
                 if item in ongoing_order_dict:
                     del ongoing_order_dict[item]
@@ -66,7 +63,7 @@ def remove_order(parameters: dict, session_id: str):
             else:
                 extract_message = generic_helper.get_str_from_food_dict(in_progress_orders[session_id])
                 result = ', '.join(food_items)
-                return f' {result} has been removed from your order and {extract_message} is left in you cart. you want to add more items? or finish your order?'
+                return f' {result} has been removed from your order and {extract_message} is left in you cart. you want to add more items? or add your address for delivery?'
         else:
             return "No ongoing order found to remove items from."            
 
