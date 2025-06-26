@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `indian_eatery` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `indian_eatery`;
--- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
 --
--- Host: localhost    Database: indian_eatery
+-- Host: 127.0.0.1    Database: indian_eatery
 -- ------------------------------------------------------
--- Server version	8.0.31
+-- Server version	5.5.5-10.4.32-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,6 +16,33 @@ USE `indian_eatery`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `address`
+--
+
+DROP TABLE IF EXISTS `address`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `address` (
+  `order_id` int(11) NOT NULL,
+  `street_address` varchar(255) NOT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `post_code` varchar(255) NOT NULL,
+  PRIMARY KEY (`order_id`),
+  CONSTRAINT `order_id` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `address`
+--
+
+LOCK TABLES `address` WRITE;
+/*!40000 ALTER TABLE `address` DISABLE KEYS */;
+INSERT INTO `address` VALUES (67,'172 newport road','','CF24 1DL');
+/*!40000 ALTER TABLE `address` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `food_items`
 --
 
@@ -25,7 +50,7 @@ DROP TABLE IF EXISTS `food_items`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `food_items` (
-  `item_id` int NOT NULL,
+  `item_id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `price` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`item_id`)
@@ -38,7 +63,7 @@ CREATE TABLE `food_items` (
 
 LOCK TABLES `food_items` WRITE;
 /*!40000 ALTER TABLE `food_items` DISABLE KEYS */;
-INSERT INTO `food_items` VALUES (1,'Pav Bhaji',6.00),(2,'Chole Bhature',7.00),(3,'Pizza',8.00),(4,'Mango Lassi',5.00),(5,'Masala Dosa',6.00),(6,'Vegetable Biryani',9.00),(7,'Vada Pav',4.00),(8,'Rava Dosa',7.00),(9,'Samosa',5.00);
+INSERT INTO `food_items` VALUES (1,'Pav Bhaji',6.00),(2,'Chole Bhature',7.00),(3,'Pizza',8.00),(4,'Mango Lassi',5.00),(5,'Masala Dosa',6.00),(6,'Biryani',9.00),(7,'Vada Pav',4.00),(8,'Rava Dosa',7.00),(9,'Samosa',5.00);
 /*!40000 ALTER TABLE `food_items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -50,7 +75,7 @@ DROP TABLE IF EXISTS `order_tracking`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_tracking` (
-  `order_id` int NOT NULL,
+  `order_id` int(11) NOT NULL,
   `status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -62,7 +87,7 @@ CREATE TABLE `order_tracking` (
 
 LOCK TABLES `order_tracking` WRITE;
 /*!40000 ALTER TABLE `order_tracking` DISABLE KEYS */;
-INSERT INTO `order_tracking` VALUES (40,'delivered'),(41,'in transit');
+INSERT INTO `order_tracking` VALUES (40,'delivered'),(41,'in transit'),(46,'Order Placed'),(47,'Order Placed'),(48,'Order Placed'),(49,'Order Placed'),(50,'Order Placed'),(51,'Order Placed'),(52,'Order Placed'),(53,'Order Placed'),(54,'Order Placed'),(55,'Order Placed'),(56,'Order Placed'),(57,'Order Placed'),(58,'Order Placed'),(59,'Order Placed'),(60,'Order Placed'),(61,'Order Placed'),(62,'Order Placed'),(67,'Preparing');
 /*!40000 ALTER TABLE `order_tracking` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -74,9 +99,9 @@ DROP TABLE IF EXISTS `orders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orders` (
-  `order_id` int NOT NULL,
-  `item_id` int NOT NULL,
-  `quantity` int DEFAULT NULL,
+  `order_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `quantity` int(11) DEFAULT NULL,
   `total_price` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`order_id`,`item_id`),
   KEY `orders_ibfk_1` (`item_id`),
@@ -90,115 +115,9 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (40,1,2,12.00),(40,3,1,8.00),(41,4,3,15.00),(41,6,2,18.00),(41,9,4,20.00);
+INSERT INTO `orders` VALUES (40,1,2,12.00),(40,3,1,8.00),(41,4,3,15.00),(41,6,2,18.00),(41,9,4,20.00),(42,4,2,10.00),(42,5,1,6.00),(43,4,2,10.00),(43,5,1,6.00),(44,4,2,10.00),(44,5,1,6.00),(45,4,2,10.00),(45,5,1,6.00),(46,4,2,10.00),(46,5,1,6.00),(47,4,2,10.00),(47,5,1,6.00),(48,4,2,10.00),(48,5,1,6.00),(49,4,2,10.00),(49,5,1,6.00),(50,4,2,10.00),(50,5,1,6.00),(51,4,2,10.00),(51,5,1,6.00),(52,4,2,10.00),(52,5,1,6.00),(53,4,2,10.00),(53,5,1,6.00),(54,4,2,10.00),(54,5,1,6.00),(55,4,2,10.00),(55,5,1,6.00),(56,4,2,10.00),(56,5,1,6.00),(57,4,2,10.00),(57,5,1,6.00),(58,2,1,7.00),(58,3,1,8.00),(59,1,1,6.00),(59,2,1,7.00),(59,9,3,15.00),(60,3,1,8.00),(61,2,1,7.00),(61,4,1,5.00),(61,5,1,6.00),(61,9,2,10.00),(62,3,1,8.00),(62,4,1,5.00),(62,9,2,10.00),(63,2,1,7.00),(63,4,1,5.00),(63,5,2,12.00),(64,2,1,7.00),(64,4,1,5.00),(64,5,2,12.00),(65,2,1,7.00),(65,4,1,5.00),(65,5,2,12.00),(66,2,1,7.00),(66,4,1,5.00),(66,5,2,12.00),(67,2,1,7.00),(67,4,1,5.00),(67,5,2,12.00);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping routines for database 'pandeyji_eatery'
---
-/*!50003 DROP FUNCTION IF EXISTS `get_price_for_item` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` FUNCTION `get_price_for_item`(p_item_name VARCHAR(255)) RETURNS decimal(10,2)
-    DETERMINISTIC
-BEGIN
-    DECLARE v_price DECIMAL(10, 2);
-    
-    -- Check if the item_name exists in the food_items table
-    IF (SELECT COUNT(*) FROM food_items WHERE name = p_item_name) > 0 THEN
-        -- Retrieve the price for the item
-        SELECT price INTO v_price
-        FROM food_items
-        WHERE name = p_item_name;
-        
-        RETURN v_price;
-    ELSE
-        -- Invalid item_name, return -1
-        RETURN -1;
-    END IF;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP FUNCTION IF EXISTS `get_total_order_price` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` FUNCTION `get_total_order_price`(p_order_id INT) RETURNS decimal(10,2)
-    DETERMINISTIC
-BEGIN
-    DECLARE v_total_price DECIMAL(10, 2);
-    
-    -- Check if the order_id exists in the orders table
-    IF (SELECT COUNT(*) FROM orders WHERE order_id = p_order_id) > 0 THEN
-        -- Calculate the total price
-        SELECT SUM(total_price) INTO v_total_price
-        FROM orders
-        WHERE order_id = p_order_id;
-        
-        RETURN v_total_price;
-    ELSE
-        -- Invalid order_id, return -1
-        RETURN -1;
-    END IF;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `insert_order_item` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_order_item`(
-  IN p_food_item VARCHAR(255),
-  IN p_quantity INT,
-  IN p_order_id INT
-)
-BEGIN
-    DECLARE v_item_id INT;
-    DECLARE v_price DECIMAL(10, 2);
-    DECLARE v_total_price DECIMAL(10, 2);
-
-    -- Get the item_id and price for the food item
-    SET v_item_id = (SELECT item_id FROM food_items WHERE name = p_food_item);
-    SET v_price = (SELECT get_price_for_item(p_food_item));
-
-    -- Calculate the total price for the order item
-    SET v_total_price = v_price * p_quantity;
-
-    -- Insert the order item into the orders table
-    INSERT INTO orders (order_id, item_id, quantity, total_price)
-    VALUES (p_order_id, v_item_id, p_quantity, v_total_price);
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -209,4 +128,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-14 17:55:58
+-- Dump completed on 2025-06-26 14:37:51

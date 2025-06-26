@@ -2,7 +2,8 @@ from fastapi import FastAPI
 from fastapi import Request
 from fastapi.responses import JSONResponse
 import generic_helper
-from helper.helper import track_order, add_order, complete_order, remove_order
+from helper.helper import track_order, add_order,\
+    complete_order, remove_order, add_address
 
 
 app = FastAPI()
@@ -24,10 +25,11 @@ async def handle_request(request: Request):
         response = track_order(parameters)
         return JSONResponse(content={"fulfillmentText": response})
     elif intent == 'order.add-context:ongoing-order':
-        print(parameters)
-        print(session_id)
         response = add_order(parameters, session_id)  
         return JSONResponse(content={"fulfillmentText": response}) 
+    elif intent == 'order.add-address-context:ongoing-order':
+        response = add_address(parameters, session_id)
+        return JSONResponse(content={"fulfillmentText": response})
     elif intent == 'order.complete-context:ongoing-order':
         response =complete_order(session_id)   
         return JSONResponse(content={"fulfillmentText": response})  

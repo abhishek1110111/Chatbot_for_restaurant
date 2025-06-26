@@ -52,7 +52,7 @@ def get_order_status_by_id(order_id: int):
         cursor.close()
         close_connection(connection)
         
-def save_order(ongoing_order: dict):
+def save_order(ongoing_order: dict, ongoing_order_address: dict):
     """add a complete order in database."""
      
     connection = create_connection()
@@ -61,8 +61,6 @@ def save_order(ongoing_order: dict):
         return f'something went wrong while connecting to the chatbot'
 
     cursor = connection.cursor(dictionary=True)
-    print('cursor test')
-    print(cursor)
     try:
         get_food_item_id = get_item_id_by_name(ongoing_order, cursor)
         order_id = generate_order_id(cursor)
@@ -70,12 +68,8 @@ def save_order(ongoing_order: dict):
         count = 0
         for item in get_food_item_id:
             item_id = item['item_id']
-            print(item['name'])
-            print(ongoing_order[item['name']])
-            print(int(ongoing_order[item['name']]))
             quantity = int(ongoing_order[item['name']])
             total_price = item['price'] * quantity
-            print(total_price)
             #Insert each item into the orders table
             query = "INSERT INTO orders (order_id, item_id, quantity, total_price) VALUES (%s, %s, %s, %s)"
             result = cursor.execute(query, (order_id, item_id, quantity, total_price))
@@ -84,14 +78,15 @@ def save_order(ongoing_order: dict):
             
         if count == len(get_food_item_id):
             print(f'{count} items have been added to the order')
+            add_address = add_adress_to_db(order_id, cursor, connection, ongoing_order_address)
             tracking_status = add_tracking_status(order_id, cursor, connection)
-            if tracking_status:
+            if tracking_status and add_address:
                 print(f'Tracking status for order {order_id} added successfully. function: save_order')
                 total_order_price = get_total_price_by_order_id(order_id, cursor)
                 return f'Thank you for choosing, Your order has been placed successfully with order ID: {order_id}.\
                     The total price is £ {total_order_price}. To know the order status, write "track order"'
             else:
-                print(f'Failed to add tracking status for order {order_id}. function: save_order')
+                print(f'Failed to add tracking status or address for order {order_id}. function: save_order')
         else:
             print(f'Only {count} items have been added to the order, function: save_order')
     except mysql.connector.Error as err:
@@ -149,3 +144,16 @@ def get_total_price_by_order_id(order_id, cursor):
     except mysql.connector.Error as err:
         print(f"Error: {err} , function: get_total_price_by_order_id")
         return f'something went wrong while connecting to the chatbot, function: get_total_price_by_order_id'
+    
+def add_adress_to_db(order_id, cursor, connection, ongoing_order_address: dict):
+    """Add address to the database."""
+    print(ongoing_order_address)
+    try:
+        query = "INSERT INTO address (order_id, street_address, city, post_code) VALUES (%s, %s, %s, %s)"
+        cursor.execute(query, (order_id, ongoing_order_address['address'], ongoing_order_address['city'], ongoing_order_address['postcode']))
+        connection.commit()
+        print(f"Address for order {order_id} added successfully. function: add_adress_to_db")
+        return True
+    except mysql.connector.Error as err:
+        print(f"Error: {err} , function: add_adress_to_db")
+        return False

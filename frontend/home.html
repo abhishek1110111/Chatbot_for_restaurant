@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Indian Eatery</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2>Indian Eatery</h2> 
+            <nav>
+                <a href="#home">HOME</a> |
+                <a href="#menu">MENU</a> |
+                <a href="#location">LOCATION</a> |
+                <a href="#aboutus">ABOUT US</a> |
+                <a href="#contactus">CONTACT US</a>
+            </nav>
+            <button id="initialChatButton" class="nav-chat-button">Order with Abhi-chatbot</button>
+            <button id="hideChatbotButton" class="nav-chat-button" style="display:none;">Hide Chatbot</button>
+        </header>
+
+        <section id="home">
+            <img src="banner.jpg" alt="Indian Eatery Banner">
+            </section>
+
+        <section id="menu">
+            <h2>Our Menu</h2>
+            <div class="grid-container">
+                <div class="menu-item">
+                    <img src="samosa.jpg" alt="Samosa">
+                    <p>Samosa</p>
+                    <p>£ 5.00</p>
+                </div>
+                <div class="menu-item">
+                    <img src="chole_bhature.jpg" alt="Chole Bhature">
+                    <p>Chole Bhature</p>
+                    <p>£ 7.00</p>
+                </div>
+                <div class="menu-item">
+                    <img src="Pav_bhaji.jpg" alt="Pav Bhaji">
+                    <p>Pav Bhaji</p>
+                    <p>£ 6.00</p>
+                </div>
+                <div class="menu-item">
+                    <img src="mango_lassi.jpg" alt="Mango Lassi">
+                    <p>Mango Lassi</p>
+                    <p>£ 5.00</p>
+                </div>
+                <div class="menu-item">
+                    <img src="masala_dosa.jpg" alt="Masala Dosa">
+                    <p>Masala Dosa</p>
+                    <p>£ 6.00</p>
+                </div>
+                <div class="menu-item">
+                    <img src="rava_dosa.jpg" alt="Rava Dosa">
+                    <p>Rava Dosa</p>
+                    <p>£ 7.00</p>
+                </div>
+                <div class="menu-item">
+                    <img src="pizza.jpg" alt="Pizza">
+                    <p>Pizza</p>
+                    <p>£ 8.00</p>
+                </div>
+                <div class="menu-item">
+                    <img src="Biryani.jpg" alt="Chicken Biryani">
+                    <p>Rava Dosa</p>
+                    <p>£ 7.00</p>
+                </div>
+                <div class="menu-item">
+                    <img src="vada_pav.jpg" alt="Vada Pav">
+                    <p>Vada Pav</p>
+                    <p>£ 4.00</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="location">
+            <h2>Location</h2>
+            <p>Cardiff, United Kingdom</p>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d19532.704257122178!2d-3.2104084!3d51.48158335!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x486e1074092b3a99%3A0x1d4d82f718870198!2sCardiff%2C%20UK!5e0!3m2!1sen!2suk!4v1719365518292!5m2!1sen!2suk" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </section>
+
+        <section id="aboutus">
+            <h2>About Us</h2>
+            <p>Welcome to Indian Eatery, your authentic taste of India in Cardiff! We are passionate about bringing you the rich and diverse flavors of Indian cuisine, prepared with the freshest ingredients and traditional recipes. Our menu features a wide array of dishes, from classic street food like Samosas and Chole Bhature to flavorful curries, dosas, and refreshing beverages like Mango Lassi. Whether you're craving a quick snack or a hearty meal, we strive to provide a delightful culinary experience that transports you to the heart of India.</p>
+        </section>
+
+        <section id="contactus">
+            <h2>Contact Us</h2>
+            <p>Got questions? Want to place an order? Call us at +44 07407267412 or email us at abhishek.kumar11101@gmail.com</p>
+        </section>
+
+        <iframe id="chatbotIframe" class="chat-bot" width="350" height="430" allow="microphone;" src="https://console.dialogflow.com/api-client/demo/embedded/89be773a-949d-48fe-bbe4-6ac86de8b296"></iframe>
+        <div id="chatIcon" class="chat-icon">
+            
+            <i class="fas fa-comment-dots"></i>
+            <i class="fas fa-arrow-down" style="display:none;"></i>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
