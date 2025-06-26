@@ -57,7 +57,7 @@ OR just run pip install -r requirements.txt to install both in one shot
 
 To start fastapi backend server
 ================================
-1. Go to backend directory in your command prompt
+1. Go to main directory of your project in your command prompt or terminal
 2. Run this command: uvicorn main:app --reload
 
 ngrok for https tunneling
