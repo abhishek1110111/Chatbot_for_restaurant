@@ -1,0 +1,105 @@
+Default Welcome Intent
+======================
+Text training phrases: 
+just going to say hi
+heya
+hello hi
+howdy
+hey there
+hi there
+greetings
+hey
+long time no see
+hello
+lovely day isn't it
+I greet you
+hello again
+hi
+hello there
+a good day
+
+
+Text response:
+    Hello, How can I help you? You can say "New Order" or "Track Order"
+    Good day! What can I do for you today? You can say "New Order" or "Track Order"
+    Greetings! How can I assist? You can say "New Order" or "Track Order"
+
+				
+Default Fallback Intent
+========================
+Text Response: I didn't understand. You can say 'New Order' or 'Track Order'. Also, in a new order, please mention only items from our available menu: Pav Bhaji, Chole Bhature, Pizza, Mango Lassi, Masala Dosa, Biryani, Vada Pav, Rava Dosa, and Samosa. Also specify a quantity for each item for example: "One pizza and 2 chole bhature"				
+
+
+Intent= new.order
+=================
+training phrases:
+
+    pleae take my ordr
+    initiate my order
+    start fresh order
+    Generate New Order
+    I want to purchase food.
+    Start new order
+    Is it possible to order food?
+    Can I place a new order?
+    Can I get something to eat?
+    I'd like to order from the menu
+    I want to place a takeaway order
+    I want to get takeaway
+    Help me place an order
+    Can I start an order?
+    Let's order
+    I want to order dinner
+    I'm hungry, can I get food?
+    Place new order
+    I want to order
+    Can I order now?
+    Order food
+    I'd like to make a new order
+    I want to buy a pizza
+    Can I get some food?
+    I want to order something
+    I'd like to order food
+    I want to place an order
+    please plce my order
+    can you please place my order
+    take my order
+    place a new order
+    New Order
+
+
+	Text Response: 
+        1. Ok, starting a new order. You can say things like "I want two pizzas and one mango lassi". Make sure to specify a quantity for every food item! Also, we have only the following items on our menu: Pav Bhaji, Chole Bhature, Pizza, Mango Lassi, Masala Dosa, Biryani, Vada Pav, Rava Dosa, and Samosa.
+        2. Starting new order. Specify food items and quantities. For example, you can say, "I would like to order two pizzas and one mango lassi. Also, we have only the following items on our menu: Pav Bhaji, Chole Bhature, Pizza, Mango Lassi, Masala Dosa, Biryani, Vada Pav, Rava Dosa, and Samosa.
+
+Intent= order.add - context: ongoing-order
+==========================================
+Similarly add here training phrases and response phrases to train NLU model
+
+Intent= order.complete - context: ongoing-order
+==========================================
+Similarly add here training phrases and response phrases to train NLU model
+
+Intent= order.remove - context: ongoing-order
+==========================================
+Similarly add here training phrases and response phrases to train NLU model
+
+Intent= track.order
+===================
+Similarly add here training phrases and response phrases to train NLU model
+
+
+
+Intent= track.order - context: ongoing-tracking
+==================================================
+Similarly add here training phrases and response phrases to train NLU model
+
+Intent= order.address-context
+==================================================
+Similarly add here training phrases and response phrases to train NLU model
+
+Intent= order.add-address-context:ongoing-order
+==================================================
+Similarly add here training phrases and response phrases to train NLU model
+
+Add Required Entity for to match your food item menu like dosa, Samosa, Chicken Briyani, etc
